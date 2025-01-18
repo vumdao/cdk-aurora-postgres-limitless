@@ -1,5 +1,5 @@
 import { Environment } from 'aws-cdk-lib';
-import { CDK_DEFAULT_ACCOUNT, DEV_ENV_TAG, DEV_STAGE } from './constants';
+import { CDK_DEFAULT_ACCOUNT, CDK_DEFAULT_REGION, DEV_ENV_TAG, DEV_STAGE } from './constants';
 
 export interface EnvironmentConfig extends Environment {
   pattern: string;
@@ -15,6 +15,6 @@ export const devEnv: EnvironmentConfig = {
   envTag: DEV_ENV_TAG,
   stage: DEV_STAGE,
   account: CDK_DEFAULT_ACCOUNT,
-  region: 'ap-southeast-1',
+  region: CDK_DEFAULT_REGION,
   owner: 'development',
 };

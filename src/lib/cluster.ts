@@ -15,13 +15,13 @@ import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import {
   AuroraPostgresEngineVersion,
   CfnDBShardGroup,
-  ClusterScailabilityType,
+  ClusterScalabilityType,
   Credentials,
   DatabaseCluster,
   DatabaseClusterEngine,
   DatabaseSecret,
   DBClusterStorageType,
-  PerformanceInsightRetention,
+  PerformanceInsightRetention
 } from 'aws-cdk-lib/aws-rds';
 import { BlockPublicAccess, Bucket } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
@@ -70,8 +70,8 @@ export class AuroraPostgresLimitlessClusterStack extends Stack {
     // Create Aurora Postgres limitless cluster
     const cluster = new DatabaseCluster(this, prefix, {
       engine: DatabaseClusterEngine.auroraPostgres({ version: AuroraPostgresEngineVersion.VER_16_4_LIMITLESS }),
-      serverlessV2MaxCapacity: 2,
-      serverlessV2MinCapacity: 1,
+      serverlessV2MaxCapacity: 64,
+      serverlessV2MinCapacity: 16,
       removalPolicy: RemovalPolicy.DESTROY,
       vpc,
       vpcSubnets: {
@@ -79,7 +79,7 @@ export class AuroraPostgresLimitlessClusterStack extends Stack {
       },
       credentials: Credentials.fromSecret(masterDbSecret),
       storageEncrypted: true,
-      clusterScailabilityType: ClusterScailabilityType.LIMITLESS,
+      clusterScalabilityType: ClusterScalabilityType.LIMITLESS,
       cloudwatchLogsExports: ['postgresql'],
       cloudwatchLogsRetention: RetentionDays.ONE_WEEK,
       enablePerformanceInsights: true,
